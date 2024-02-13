@@ -56,7 +56,7 @@ model_filename = "model_pong"
 q_filename = "q_pong"
 
 environment_name = "PongNoFrameskip-v4"
-environment = make_env(environment_name, difficulty=3)
+environment = make_env(environment_name, difficulty=0)
 
 # weights = {"q": 1, "model": 1, "cycle": 10}
 

@@ -33,10 +33,6 @@ class DQN:
         self.mem_size = mem_size
         self.model_dir = model_dir
 
-        # filename = "DQN"+"_"+env_name+"_"+str(time())
-        log_name = "rotated_pong_with_correct_rotation"
-        filename = "q"
-
         epsilon_init = 0.9
 
         if params.get("epsilon_init", False):
@@ -55,18 +51,6 @@ class DQN:
         if params.get("q_filename", False):
             self.agent.load_q_function(model_dir+"/"+params["q_filename"])
 
-        # image_channels = 4
-        # if args.square_concat:
-        #     image_channels = 1
-        # Gab = None
-        #
-        # Gab, A, b = define_Gen(input_nc=image_channels, output_nc=image_channels, ngf=args.ngf, netG=args.gen_net, norm=args.norm,
-        #                        use_dropout=not args.no_dropout, gpu_ids=args.gpu_ids, A=np.pi/2)
-        #
-        # Gab.load_state_dict(torch.load("memory/{}".format(gab_filename), map_location=agent.q_target.device))
-
-        # for param in Gab.parameters():
-        #     param.requires_grad = False
 
     def run(self):
 
@@ -102,15 +86,13 @@ class DQN:
             steps_array.append(n_steps)
 
             avg_score = np.mean(scores[-100:])
-            print('episode: ', i, 'score: ', score,
+            print('game num: ', i, 'score: ', score,
                   ' average score %.1f' % avg_score, 'best score %.2f' % best_score,
                   'epsilon %.2f' % self.agent.epsilon, 'steps', n_steps)
 
             if avg_score > best_score:
                 if self.params.get("save_models", False):
                     self.agent.save_q_function(self.run_name+"_q")
-                # if not load_checkpoint:
-                #    agent.save_models()
                 best_score = avg_score
 
             if self.params.get("save_replay_memory_random", False) and n_steps > self.mem_size:
